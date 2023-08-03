@@ -1,9 +1,7 @@
-import { FC, FormEvent } from "react";
-import { Form, Input, Button, Checkbox, Card, Typography } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { Button, Card, Checkbox, Form, Input, Typography } from "antd";
 import Link from "next/link";
-import Image from "next/image";
-import avatar from "@/images/avatar.png";
+import { FC, FormEvent } from "react";
 const { Title } = Typography;
 
 interface Values {
@@ -36,9 +34,6 @@ const LoginForm: FC = () => {
       }}
     >
       <Card hoverable style={{ width: 500 }}>
-        {/* <div>
-          <Image src={avatar} alt="alt" />
-        </div> */}
         <div style={{ display: "flex", justifyContent: "center" }}>
           <Title level={3}>Login Account </Title>
         </div>

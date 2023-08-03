@@ -9,9 +9,7 @@ import {
 
 const { Title } = Typography;
 
-
 export default function RegisterForm() {
-  const [form] = Form.useForm();
   return (
     <div
       style={{
@@ -25,10 +23,14 @@ export default function RegisterForm() {
         <div style={{ display: "flex", justifyContent: "center" }}>
           <Title level={3}>Register Account</Title>
         </div>
-        <Form name="register_form" className="register-form" form={form}>
+        <Form name="register_form" className="register-form">
           <Form.Item
             name="username"
-            rules={[{ required: true, message: "Please input your Username!" }]}
+            rules={[
+              { required: true, message: "Please input your Username!" },
+              { whitespace: true, message: "Username cannot empty!" },
+              { min: 3, message: "Username must be at least 3 characters!" },
+            ]}
           >
             <Input
               prefix={<UserOutlined className="site-form-item-icon" />}
