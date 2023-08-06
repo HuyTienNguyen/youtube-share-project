@@ -1,7 +1,11 @@
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Card, Checkbox, Form, Input, Typography } from "antd";
 import Link from "next/link";
-import { FC, FormEvent } from "react";
+import { useRouter } from "next/router";
+import { FC } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { signIn } from "../../store/auth/slice";
+import { RootState } from "../../store";
 const { Title } = Typography;
 
 interface Values {
@@ -11,17 +15,14 @@ interface Values {
 }
 
 const LoginForm: FC = () => {
+  const router = useRouter();
+  const dispatch = useDispatch();
   const onFinish = (values: Values) => {
-    console.log("Received values of form: ", values);
-    if (values.remember) {
-      localStorage.setItem("username", values.username);
-      localStorage.setItem("password", values.password);
+    const { username, password } = values;
+    if (username && password) {
+      const data = dispatch(signIn({ username, password }));
+      if (data) router.push("/");
     }
-  };
-
-  const handleForgotPassword = (e: FormEvent) => {
-    e.preventDefault();
-    console.log("Handle password recovery logic here");
   };
 
   return (
