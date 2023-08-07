@@ -33,10 +33,23 @@ const authSlice = createSlice({
     signOutSuccess: (state: IAuthState) => {
       state.isAuthenticated = false;
     },
+    updateAuth: (
+      state: IAuthState,
+      action: PayloadAction<{ isAuthenticated: boolean }>
+    ) => {
+      console.log("slice", action.payload.isAuthenticated);
+      state.isAuthenticated = action.payload.isAuthenticated;
+    },
   },
 });
 
-export const { signIn, signInSuccess, signInFail, signOut, signOutSuccess } =
-  authSlice.actions;
+export const {
+  signIn,
+  signInSuccess,
+  signInFail,
+  signOut,
+  signOutSuccess,
+  updateAuth,
+} = authSlice.actions;
 
 export default authSlice.reducer;

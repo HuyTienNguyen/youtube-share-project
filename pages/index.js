@@ -1,7 +1,5 @@
-import MainLayoutContainer from "../layout/main-layout-container";
-import CardVideo from "../components/card-video";
 import ListVideo from "../components/list-video";
-import Pagination from "../components/pagination";
+import MainLayoutContainer from "../layout/main-layout-public";
 
 export default function Home() {
   return (

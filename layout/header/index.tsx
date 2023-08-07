@@ -8,13 +8,22 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { RootState } from "../../store";
 import { useSelector } from "react-redux";
 import ButtonLogout from "../../components/button-logout";
+import { useAppDispatch } from "../../store/hooks";
+import { updateAuth } from "../../store/auth/slice";
 
 export interface HeaderProps {
   keyword: string;
   onChangeKeyword: (value: string) => void;
 }
 const Header = ({ keyword, onChangeKeyword }: HeaderProps) => {
+  // const dispatch = useAppDispatch();
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  console.log("header", isAuthenticated);
+
+  // useEffect(() => {
+  //   dispatch(updateAuth({ isAuthenticated: isAuthenticated }));
+  // }, [dispatch, isAuthenticated]);
+
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newKeyword = e.target.value;
     onChangeKeyword(newKeyword);
@@ -34,6 +43,7 @@ const Header = ({ keyword, onChangeKeyword }: HeaderProps) => {
         </Col>
         <Col flex={2} className="gutter-row">
           {!isAuthenticated ? <ButtonLogin /> : <ButtonLogout />}
+          {}
         </Col>
       </Row>
     </div>
