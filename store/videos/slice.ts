@@ -5,6 +5,7 @@ import { ListParams, ListResponse } from "../common";
 
 const initialState: IVideosState = {
   status: EActionStatus.Idle,
+  statusInteracVideo: EActionStatus.Idle,
   videosList: [],
   filter: {
     _page: 1,
@@ -38,6 +39,20 @@ const videoSlice = createSlice({
     getAllVideosFailed: (state: IVideosState) => {
       state.status = EActionStatus.Failed;
     },
+    interactVideo: (
+      state: IVideosState,
+      _: PayloadAction<{ videoId: number}>
+    ) => {
+      state.statusInteracVideo = EActionStatus.Pending;
+    },
+
+    interactVideoSuccess: (state: IVideosState) => {
+      state.statusInteracVideo = EActionStatus.Succeeded;
+    },
+
+    interactVideoFailed: (state: IVideosState) => {
+      state.statusInteracVideo = EActionStatus.Failed;
+    },
 
     setFilter(state, action: PayloadAction<ListParams>) {
       state.filter = action.payload;
@@ -49,6 +64,9 @@ export const {
   getAllVideosRequest,
   getAllVideosSuccess,
   getAllVideosFailed,
+  interactVideo,
+  interactVideoSuccess,
+  interactVideoFailed,
   setFilter,
 } = videoSlice.actions;
 

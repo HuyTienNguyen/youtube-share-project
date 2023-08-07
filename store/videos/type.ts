@@ -2,15 +2,13 @@ import { ListParams, PaginationParams } from "../common";
 import { EActionStatus } from "../type";
 
 export interface IVideo {
-  id?: string;
+  id?: number;
   name: string;
-  age: number;
-  mark: number;
-  gender: "male" | "female";
-  city: string;
-
-  createdAt?: number;
-  updatedAt?: number;
+  title: string;
+  url: string;
+  likeCount: number;
+  reactVideo: boolean | null;
+  createdAt: string;
 }
 
 export interface IGetAllDataQuery {
@@ -20,6 +18,7 @@ export interface IGetAllDataQuery {
 
 export interface IVideosState {
   status: EActionStatus;
+  statusInteracVideo: EActionStatus;
   videosList: IVideo[];
   filter: ListParams;
   pagination: PaginationParams;

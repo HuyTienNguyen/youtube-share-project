@@ -41,7 +41,7 @@ const LoginForm: FC = () => {
         <Form
           name="normal_login"
           className="login-form"
-          initialValues={{ remember: true }}
+          initialValues={{username: '1111', password: '1111111' ,remember: true }}
           onFinish={onFinish}
         >
           <Form.Item

@@ -5,7 +5,6 @@ import { IGetAllDataQuery, IVideo } from "../store/videos/type";
 
 const serviceVideo = {
   getAllVideo: async (paramQuery: ListParams) => {
-    console.log("check", paramQuery);
     try {
       const response = await axiosClient.get<ListResponse<IVideo>>(
         "/students",
@@ -13,7 +12,6 @@ const serviceVideo = {
           params: paramQuery,
         }
       );
-      console.log("callapi: ", response);
       return response;
     } catch (error) {
       console.error("Error fetching data: ", error);

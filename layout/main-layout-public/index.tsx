@@ -1,12 +1,11 @@
 import { ReactElement, useEffect, useState } from "react";
-import style from "./style.module.scss";
-import Header from "../header";
-import FooterDesign from "../footer";
 import { useDispatch, useSelector } from "react-redux";
+import useDebounce from "../../hooks/use-debounce";
 import { RootState } from "../../store";
 import { getAllVideosRequest } from "../../store/videos/slice";
-import { ListParams } from "../../store/common";
-import useDebounce from "../../hooks/use-debounce";
+import FooterDesign from "../footer";
+import Header from "../header";
+import style from "./style.module.scss";
 
 interface IProps {
   children: ReactElement;

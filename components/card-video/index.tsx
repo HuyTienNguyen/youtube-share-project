@@ -1,16 +1,49 @@
-import { EditOutlined, LikeOutlined } from "@ant-design/icons";
+import {
+  DislikeOutlined,
+  EditOutlined,
+  HeartOutlined,
+  LikeOutlined,
+} from "@ant-design/icons";
 import { Card } from "antd";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
+import style from "./style.module.scss";
+import clsx from "clsx";
+import { useEffect, useState } from "react";
 
 const { Meta } = Card;
 export interface CardVideoProps {
+  id: number;
   title: string;
+  likeCount: number;
+  reactVideo: boolean | null;
+  onChangeReact: (idVideo: number) => void;
 }
 
-export default function CardVideo({ title }: CardVideoProps) {
-  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
-  console.log("check", isAuthenticated);
+export default function CardVideo({
+  id,
+  title,
+  likeCount,
+  reactVideo,
+  onChangeReact,
+}: CardVideoProps) {
+  // const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const [isInteract, setIsInteract] = useState<boolean | null>(reactVideo);
+  const [reactCount, setReactCount] = useState<number>(likeCount);
+
+  const handleReactVideo = (reactVideo: boolean | null) => {
+    if (reactVideo == null) {
+      setIsInteract(true);
+      setReactCount(reactCount + 1);
+    } else {
+      if (reactVideo) {
+        setIsInteract(false);
+        setReactCount(reactCount - 1);
+      } else {
+        setIsInteract(null);
+      }
+    }
+    onChangeReact(id);
+  };
+
   return (
     <Card
       cover={
@@ -20,10 +53,37 @@ export default function CardVideo({ title }: CardVideoProps) {
         />
       }
       actions={
-        isAuthenticated ? [<LikeOutlined />, <EditOutlined key="edit" />] : []
+        true
+          ? [
+              isInteract || isInteract == null ? (
+                <LikeOutlined
+                  className={clsx(
+                    { [style.color_button_like]: isInteract },
+                    { [style.hover_button_interact]: isInteract != true }
+                  )}
+                  onClick={() => handleReactVideo(isInteract)}
+                />
+              ) : (
+                <DislikeOutlined
+                  className={clsx({
+                    [style.hover_button_interact]: isInteract != true,
+                  })}
+                  onClick={() => handleReactVideo(isInteract)}
+                />
+              ),
+              <EditOutlined key="edit" />,
+            ]
+          : []
       }
     >
-      <Meta title={title} />
+      <Meta
+        title={title}
+        description={
+          <div style={{ fontWeight: "bold" }}>
+            <HeartOutlined style={{ color: "red" }} /> {reactCount}
+          </div>
+        }
+      />
     </Card>
   );
 }

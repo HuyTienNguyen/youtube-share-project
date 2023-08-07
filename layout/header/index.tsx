@@ -4,7 +4,7 @@ import ButtonLogin from "../../components/button-login";
 import InputSearch from "../../components/home/input-search";
 import avatar from "../../images/logo.png";
 import style from "./style.module.scss";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { RootState } from "../../store";
 import { useSelector } from "react-redux";
 import ButtonLogout from "../../components/button-logout";

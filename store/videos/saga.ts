@@ -6,15 +6,21 @@ import {
   getAllVideosFailed,
   getAllVideosRequest,
   getAllVideosSuccess,
+  interactVideo,
+  interactVideoFailed,
+  interactVideoSuccess,
 } from "./slice";
 import { IVideo } from "./type";
+import { dataTest } from "../../constants/data-test";
+import { IAction } from "../type";
 
 function* getAllVideosWorker(action: PayloadAction<ListParams>) {
   try {
-    const response: ListResponse<IVideo> = yield call(
-      videoApi.getAll,
-      action.payload
-    );
+    // const response: ListResponse<IVideo> = yield call(
+    //   videoApi.getAll,
+    //   action.payload
+    // );
+    const response = dataTest;
     if (response) {
       yield put({
         type: getAllVideosSuccess.toString(),
@@ -26,8 +32,27 @@ function* getAllVideosWorker(action: PayloadAction<ListParams>) {
   }
 }
 
+function* interactVideosWorker(
+  action: IAction<{
+    videoId: number;
+  }>
+) {
+  try {
+    const { videoId } = action.payload;
+    //call api update interact video
+
+    //end update
+    yield put({
+      type: interactVideoSuccess.toString(),
+    });
+  } catch (error: any) {
+    yield put({ type: interactVideoFailed.toString() });
+  }
+}
+
 function* videosWacher() {
   yield takeLeading(getAllVideosRequest.toString(), getAllVideosWorker);
+  yield takeLeading(interactVideo.toString(), interactVideosWorker);
 }
 
 export default videosWacher;

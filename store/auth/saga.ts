@@ -1,4 +1,5 @@
-import { Cookies } from "react-cookie";
+import { call, put, takeLeading } from "redux-saga/effects";
+import { authApi } from "../../api-client/auth-api";
 import serviceUser from "../../services/user";
 import { IUserLoginResponse } from "../response.tye";
 import { IAction } from "../type";
@@ -10,17 +11,16 @@ import {
   signOutSuccess,
 } from "./slice";
 import { ISignInAction } from "./type";
-import { delay, put, takeLeading } from "redux-saga/effects";
 
 function* signInWorker(action: IAction<ISignInAction>) {
   try {
     const { username, password } = action.payload;
-    const loginReponse: IUserLoginResponse = yield serviceUser.login(
+    const loginResponse: IUserLoginResponse = yield serviceUser.login(
       username,
       password
     );
-    if (loginReponse) {
-      const { accessToken } = loginReponse;
+    if (loginResponse) {
+      const { accessToken } = loginResponse;
       serviceUser.storeAccessToken(accessToken);
 
       yield put({ type: signInSuccess.toString(), payload: accessToken });
@@ -31,6 +31,7 @@ function* signInWorker(action: IAction<ISignInAction>) {
 }
 
 function* signOutWorker() {
+  console.log("saga")
   serviceUser.storeAccessToken(null);
   yield put({ type: signOutSuccess.toString() });
 }
