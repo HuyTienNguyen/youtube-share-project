@@ -1,9 +1,7 @@
 import { EditOutlined, LikeOutlined } from "@ant-design/icons";
 import { Card } from "antd";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { Cookies } from "react-cookie";
-import { useEffect } from "react";
 
 const { Meta } = Card;
 export interface CardVideoProps {
@@ -11,6 +9,8 @@ export interface CardVideoProps {
 }
 
 export default function CardVideo({ title }: CardVideoProps) {
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  console.log("check", isAuthenticated);
   return (
     <Card
       cover={
@@ -19,7 +19,9 @@ export default function CardVideo({ title }: CardVideoProps) {
           src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
         />
       }
-      actions={false ? [<LikeOutlined />, <EditOutlined key="edit" />] : []}
+      actions={
+        isAuthenticated ? [<LikeOutlined />, <EditOutlined key="edit" />] : []
+      }
     >
       <Meta title={title} />
     </Card>

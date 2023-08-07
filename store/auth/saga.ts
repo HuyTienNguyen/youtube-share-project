@@ -2,7 +2,13 @@ import { Cookies } from "react-cookie";
 import serviceUser from "../../services/user";
 import { IUserLoginResponse } from "../response.tye";
 import { IAction } from "../type";
-import { signIn, signInFail, signInSuccess } from "./slice";
+import {
+  signIn,
+  signInFail,
+  signInSuccess,
+  signOut,
+  signOutSuccess,
+} from "./slice";
 import { ISignInAction } from "./type";
 import { delay, put, takeLeading } from "redux-saga/effects";
 
@@ -24,8 +30,14 @@ function* signInWorker(action: IAction<ISignInAction>) {
   }
 }
 
+function* signOutWorker() {
+  serviceUser.storeAccessToken(null);
+  yield put({ type: signOutSuccess.toString() });
+}
+
 function* authWatcher() {
   yield takeLeading(signIn.toString(), signInWorker);
+  yield takeLeading(signOut.toString(), signOutWorker);
 }
 
 export default authWatcher;

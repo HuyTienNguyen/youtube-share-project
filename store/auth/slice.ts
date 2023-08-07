@@ -27,9 +27,16 @@ const authSlice = createSlice({
     signInFail: (state: IAuthState) => {
       state.status = EActionStatus.Failed;
     },
+    signOut: (state: IAuthState) => {
+      state.status = EActionStatus.Idle;
+    },
+    signOutSuccess: (state: IAuthState) => {
+      state.isAuthenticated = false;
+    },
   },
 });
 
-export const { signIn, signInSuccess, signInFail } = authSlice.actions;
+export const { signIn, signInSuccess, signInFail, signOut, signOutSuccess } =
+  authSlice.actions;
 
 export default authSlice.reducer;

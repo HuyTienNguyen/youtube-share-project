@@ -1,28 +1,24 @@
-import Menu from "../menu";
-import style from "./style.module.scss";
 import { Col, Row } from "antd";
-import avatar from "../../images/logo.png";
 import Image from "next/image";
-import InputSearch from "../../components/home/input-search";
 import ButtonLogin from "../../components/button-login";
+import InputSearch from "../../components/home/input-search";
+import avatar from "../../images/logo.png";
+import style from "./style.module.scss";
 import { ChangeEvent } from "react";
-import { ListParams } from "../../store/common";
+import { RootState } from "../../store";
+import { useSelector } from "react-redux";
+import ButtonLogout from "../../components/button-logout";
 
 export interface HeaderProps {
-  filter?: ListParams;
-  onSearchChange?: (newFilter: ListParams) => void;
+  keyword: string;
+  onChangeKeyword: (value: string) => void;
 }
-const Header = ({ filter, onSearchChange }: HeaderProps) => {
-  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!onSearchChange) return;
-    const newFilter: ListParams = {
-      ...filter,
-      name_like: e.target.value,
-      _page: 1,
-    };
-    onSearchChange(newFilter);
+const Header = ({ keyword, onChangeKeyword }: HeaderProps) => {
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const newKeyword = e.target.value;
+    onChangeKeyword(newKeyword);
   };
-
   return (
     <div className={style.header}>
       <Row gutter={30} align="middle">
@@ -33,11 +29,11 @@ const Header = ({ filter, onSearchChange }: HeaderProps) => {
         </Col>
         <Col flex={4} className="gutter-row">
           <div>
-            <InputSearch onChange={handleSearchChange} />
+            <InputSearch onChange={handleChange} value={keyword} />
           </div>
         </Col>
         <Col flex={2} className="gutter-row">
-          <ButtonLogin />
+          {!isAuthenticated ? <ButtonLogin /> : <ButtonLogout />}
         </Col>
       </Row>
     </div>

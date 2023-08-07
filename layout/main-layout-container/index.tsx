@@ -17,12 +17,19 @@ const MainLayoutContainer = ({ children }: IProps) => {
   const searchDebouceValue = useDebounce(keyword, 300);
   const dispatch = useDispatch();
   const { filter } = useSelector((state: RootState) => state.video);
-  const handleSearchChange = (newFilter: ListParams) => {
-    dispatch(getAllVideosRequest(newFilter));
-  };
+  useEffect(() => {
+    dispatch(
+      getAllVideosRequest({
+        ...filter,
+        name_like: searchDebouceValue?.trim(),
+        _page: 1,
+      })
+    );
+  }, [dispatch, filter, searchDebouceValue]);
+
   return (
     <main className={style.mainLayout}>
-      <Header filter={filter} onSearchChange={handleSearchChange} />
+      <Header keyword={keyword} onChangeKeyword={setKeyword} />
       <div className={style.content}> {children}</div>
       <FooterDesign />
     </main>
