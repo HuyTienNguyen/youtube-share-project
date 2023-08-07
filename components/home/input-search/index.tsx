@@ -8,7 +8,7 @@ export default function InputSearch(props: InputProps) {
     <>
       <Search
         placeholder="input search text"
-        enterButton
+        enterButton 
         size="middle"
         {...restProps}
       />
